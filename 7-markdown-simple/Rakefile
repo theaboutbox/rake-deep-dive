@@ -1,0 +1,17 @@
+require 'rake/clean'
+require 'redcarpet'
+
+CLOBBER.include('site')
+
+def markdown_convert(source_file, dest_file)
+  markdown = Redcarpet::Markdown.new(
+    Redcarpet::Render::XHTML)
+  html = markdown.render(open(source_file).read)
+  open(dest_file,'w').print(html)
+end
+
+desc "Generate index.html"
+task :index do
+  mkdir_p 'site'
+  markdown_convert('index.md','site/index.html')
+end

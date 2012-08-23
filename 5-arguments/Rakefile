@@ -1,0 +1,25 @@
+desc "Say hello to everyone at Derailed"
+task :hello, [:times] => :go do |t, args|
+  defaults = {times: '3'}
+  args = defaults.merge(args)
+  args[:times].to_i.times do
+    puts "Hello!"
+  end
+end
+
+desc "Go to the derailed meeting"
+task :go => [:find_laptop, :get_in_car] do
+  puts "Going to derailed!"
+end
+
+desc "get in the car with my laptop"
+task :get_in_car => :find_laptop do
+  puts "Getting in my car"
+end
+
+desc "Find my laptop"
+task :find_laptop do
+  puts "Finding my laptop"
+end
+
+task :default => 'derailed:hello'

@@ -1,0 +1,19 @@
+desc "Say hello to everyone at Derailed"
+task :hello => :go_to_derailed do
+  puts "Hello!"
+end
+
+desc "Go to the derailed meeting"
+task :go_to_derailed => [:find_laptop, :get_in_car] do
+  puts "Going to derailed!"
+end
+
+desc "get in the car with my laptop"
+task :get_in_car => :find_laptop do
+  puts "Getting in my car"
+end
+
+task :find_laptop do
+  puts "Finding my laptop"
+end
+

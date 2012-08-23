@@ -1,0 +1,25 @@
+require 'rake/clean'
+
+CLEAN.include('test')
+CLOBBER.include('foo')
+
+task :default => [:pwd, :subdir]
+
+desc "Print the current directory on the terminal"
+task :pwd do
+  sh 'pwd'
+  mkdir_p 'test'
+end
+
+desc "Run something in another directory" 
+task :subdir do
+  sh 'pwd', verbose: false
+  verbose(false) do
+    mkdir_p 'foo/bar/baz'
+    cd 'foo/bar/baz' do
+      sh 'pwd'
+    end
+    sh 'pwd'
+  end
+end
+

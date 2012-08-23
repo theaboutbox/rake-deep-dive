@@ -1,0 +1,17 @@
+task :drink_beer do
+  puts "Having a beer"
+end
+
+desc "Say hi"
+task :hello do
+  puts "Hello!"
+end
+
+desc "Say Hola"
+task :hello do
+  puts "Hola!"
+end
+
+Rake::Task[:hello].enhance do
+  Rake::Task[:drink_beer].invoke
+end

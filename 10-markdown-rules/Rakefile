@@ -1,0 +1,28 @@
+require 'rake/clean'
+require 'redcarpet'
+
+CLOBBER.include('site')
+
+def markdown_convert(source_file, dest_file)
+  markdown = Redcarpet::Markdown.new(
+    Redcarpet::Render::XHTML,
+    autolink: true)
+  html = markdown.render(open(source_file).read)
+  open(dest_file,'w').print(html)
+end
+
+directory 'site'
+
+MARKDOWN_FILES = FileList['*.md']
+task :show_source_files do
+  puts MARKDOWN_FILES.inspect
+end
+
+TO_MARKDOWN = lambda { |html| html.pathmap('%n.md') }
+rule '.html' => [TO_MARKDOWN] + ['site'] do |t|
+  markdown_convert(t.source, t.name)
+end
+
+SITE_FILES = MARKDOWN_FILES.pathmap('site/%n.html')
+desc "Generate index.html"
+task :html => SITE_FILES
